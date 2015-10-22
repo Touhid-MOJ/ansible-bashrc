@@ -1,0 +1,4 @@
+---
+# tasks file for ansible-bashrc
+- include: debian.yml
+  when: ansible_os_family == "Debian" and (enable_bashrc_management is defined and enable_bashrc_management)

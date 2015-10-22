@@ -28,7 +28,7 @@ PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 #*)
 #    ;;
 #esac
-
+{% if (bashrc_enable_bash_completion is defined and not bashrc_enable_bash_completion) or bashrc_enable_bash_completion is not defined %}
 # enable bash completion in interactive shells
 #if ! shopt -oq posix; then
 #  if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -37,6 +37,17 @@ PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 #    . /etc/bash_completion
 #  fi
 #fi
+{% endif %}
+{% if bashrc_enable_bash_completion is defined and bashrc_enable_bash_completion %}
+# enable bash completion in interactive shells
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+{% endif %}
 
 # sudo hint
 if [ ! -e "$HOME/.sudo_as_admin_successful" ] && [ ! -e "$HOME/.hushlogin" ] ; then
